@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="input-value" type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="submit-button" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="city">Dhaka</h1>
+            <h3><span id="degree">38.06</span>&deg;C</h3>
+            <h1 id="description" class="lead">Clouds</h1>
+            <p id="country"></p>
+        </div>
+    </div>
+    <script>
+        const apiKey = 'eb9ead17e470874a901561924975f759';
+        let inputValue = document.getElementById("input-value");
+        let submitButton = document.getElementById("submit-button");
+        let city = document.getElementById("city");
+        let degree = document.getElementById("degree");
+        let description = document.getElementById("description");
+        let country = document.getElementById("country");
+        
+        submitButton.addEventListener("click",function(){
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${inputValue.value}&appid=${apiKey}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                let nameValue = data['name'];
+                let countryValue = data['sys']['country'];
+                let tempValue = data['main']['pressure'];
+                let descValue = data['weather'][0]['description'];
+
+                city.innerText = nameValue;
+                degree.innerText = tempValue;
+                description.innerText = descValue;
+                country.innerText = countryValue;
+            })
+            .catch(error => ("error"))
+        })
+    </script>
+</body>
+
+</html>

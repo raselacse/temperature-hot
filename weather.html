@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        font-family: "Nunito",sans-serif;
+        background: url(images/bg-image.jpg) no-repeat;
+        background-size: cover;
+        height: 100vh;
+    }
+    .input{
+        text-align: center;
+        margin: 100px 0;
+    }
+    input[type="text"]{
+        height: 50px;
+        width: 600px;
+        background: #e7e7e7;
+        font-family: "Nunito",sans-serif;
+        font-weight: bold;
+        font-size: 20px;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 10px;
+    }
+    input[type="submit"]{
+        height: 50px;
+        width: 100px;
+        background: #e7e7e7;
+        font-family: "Nunito",sans-serif;
+        font-weight: bold;
+        font-size: 20px;
+        border: none;
+        border-radius: 5px;
+    }
+    .display{
+        text-align: center;
+    }
+</style>
+<body>
+    <div class="input">
+        <input type="text" class="inputValue" placeholder="Enter a City">
+        <input type="submit" value="Submit" class="button">
+    </div>
+    <div class="display">
+        <h1 class="name"></h1>
+        <p class="desc"></p>
+        <p class="temp"></p>
+    </div>
+    <script>
+        let button = document.querySelector(".button");
+        let inputValue = document.querySelector(".inputValue");
+        let name = document.querySelector(".name");
+        let desc = document.querySelector(".desc");
+        let temp = document.querySelector(".temp");
+        const apiKey = 'eb9ead17e470874a901561924975f759';
+        
+        button.addEventListener("click",function(){
+            // fetch(`https://api.openweathermap.org/data/2.5/weather?q=${inputValue.value}&appid=${apiKey}`)
+            fetch('https://api.openweathermap.org/data/2.5/weather?q='+ inputValue.value +'&appid=eb9ead17e470874a901561924975f759')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                let nameValue = data['name'];
+                let tempValue = data['main']['pressure'];
+                let descValue = data['weather'][0]['description'];
+
+                name.innerHTML = nameValue;
+                temp.innerHTML = tempValue;
+                desc.innerHTML = descValue;
+            })
+
+            .catch(error => alert("Wrong city Name!"))
+        })
+    </script>
+</body>
+</html>
